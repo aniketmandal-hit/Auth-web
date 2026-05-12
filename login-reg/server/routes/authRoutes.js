@@ -1,9 +1,9 @@
 import express from 'express'
-import { login, logout, resistor } from '../Controllers/authController'
+import { login, logout, register } from '../Controllers/authController.js'
 
-authRoutes = express.Router()
+const authRoutes = express.Router()
 
-authRoutes.post('/resistor', resistor)
+authRoutes.post('/register', register)
 authRoutes.post('/login', login)
 authRoutes.post('/logout', logout)
 

@@ -1,8 +1,8 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import userModel from '../models/userModel'
+import userModel from '../models/userModel.js'
 
-export const resistor = async (req, res) =>{
+export const register = async (req, res) =>{
     const {name, email, password} = req.body
 
     if (!name || !email || !password) {
@@ -20,17 +20,17 @@ export const resistor = async (req, res) =>{
         const user = new userModel({name, email, password: hashedPassword})
         await user.save()
 
-        const token = jwt.sign({id = _id}, process.env.SECRET_KEY, {expiresIn: '7d'})
+        const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, { expiresIn: '7d' })
 
         res.cookie('token', token,{
             httpOnly: true,
-            secure: true === 'production',
-            sameSite: true === 'production' ?
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ?
             'none': 'strict',
             maxAge: 7 * 24 * 60 * 60 * 1000
 
         })
-              return res.json({succes: true})
+              return res.json({success: true})
 
     } catch (error) {
         res.json({success: false, message: error.message})
@@ -47,7 +47,7 @@ export const login = async(req, res)=>{
     }
 
     try {
-        const user = await usermodel.findone();
+        const user = await userModel.findone();
         if(!user){
             return res.json({success: false, message: 'invalid email'})
         }
@@ -58,8 +58,8 @@ export const login = async(req, res)=>{
 
                 res.cookie('token',{
             httpOnly: true,
-            secure: true === 'production',
-            sameSite: true === 'production' ?
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ?
             'none': 'strict',
             maxAge: 7 * 24 * 60 * 60 * 1000
 
@@ -76,8 +76,8 @@ export const logout = (req, res)=>{
         res.clearCookie
             ('token',{
             httpOnly: true,
-            secure: true === 'production',
-            sameSite: true === 'production' ?
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ?
             'none': 'strict',
         })
         

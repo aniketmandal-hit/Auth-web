@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.userSchema({
+const userSchema = new mongoose.Schema({
     name: {type: String, required: true},
     email: {type: String, required: true, unique: true},
     password: {type: String, required: true},
@@ -8,8 +8,8 @@ const userSchema = new mongoose.userSchema({
     verifyOtpExpireAt: {type: Number, default:0},
     isAccountVerified: {type: Boolean, default: true},
     resetOtp: {type: String, default:''},
-    resetOtpExpireAt: {type: number, default:0},
+    resetOtpExpireAt: {type: Number, default:0},
 })
 
-const usermodel = mongoose.model('user', userSchema);
-export default usermodel
+const userModel = mongoose.model('user', userSchema);
+export default userModel
