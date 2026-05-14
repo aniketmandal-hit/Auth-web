@@ -48,7 +48,7 @@ export const login = async(req, res)=>{
     }
 
     try {
-        const user = await userModel.findOne();
+        const user = await userModel.findOne({email});
         if(!user){
             return res.json({success: false, message: 'invalid email'})
         }
