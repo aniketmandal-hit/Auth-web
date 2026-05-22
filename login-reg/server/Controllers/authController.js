@@ -200,6 +200,58 @@ export const isAuthenticated = async(req, res)=>{
         if(!email){
             res.json({success: false, message : "Email is required"})
         }
-        
+        try {
+            const user = await userModel.findone({email})
+            if(!user){
+                return res.json({success: false, message: 'User not found'})
+            }
+                const otp = String(Math.floor(100000 + Math.random() * 900000))
+
+     user.resetOtp = otp;
+     user.resetOtpExpireAt = Date.now() + 15 *60 *1000
+
+     await user.save()
+
+     const mailOptions = {
+        from : process.env.SENDER_EMAIL,
+        to : user.email,
+        subject : "password reset otp",
+        text : `Your otp to reset your password is ${otp}.`
+     }
+        try {
+    await transporter.sendMail(mailOptions);
+} catch (error) {
+    console.error("Otp verification failed but server is still running:", error.message);
+}
+        return res.json({success: true, message: 'Reset otp sent successful'})
+
+        } catch (error) {
+            return res.json({success: false, message: error.message})
+        }
+    }
+
+
+    export const resetPassword = async (req, res) => {
+        const {email, otp, password} = req.body
+
+        if(!email || !otp || !password){
+            res.json({success: false, message: 'Email or Otp or Password are required'})
+        }
+        const user = await userModel.findOne({email})
+        try {
+            
+       
+        if(!user){
+            return res.json({success: false, message: 'user not found'})
+        }
+        if(user.resetOtp === '' || user.resetOtp !== otp){
+            return res.json({success: false, message: 'invalid otp'})
+        }
+        if(user.resetOtpExpireAt < Date.now()){
+            return res.json({success: false, message: 'reset otp expired'})
+        }
+         } catch (error) {
+            return res.json({success: false, message: error.message})
+        }
     }
 
