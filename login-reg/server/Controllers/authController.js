@@ -250,6 +250,15 @@ export const isAuthenticated = async(req, res)=>{
         if(user.resetOtpExpireAt < Date.now()){
             return res.json({success: false, message: 'reset otp expired'})
         }
+
+        const hashedPassword = await bcrypt.hash(password, 10)
+        user.password = hashedPassword
+        user.resetOtp = ''
+        user.resetOtpExpireAt = 0
+
+        await user.save()
+
+        return res.json({success: true, message: "Password has been reset successfuly"})
          } catch (error) {
             return res.json({success: false, message: error.message})
         }

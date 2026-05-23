@@ -1,5 +1,5 @@
 import express from 'express'
-import { isAuthenticated, login, logout, register, sendVerifyOtp, verifyOtp } from '../Controllers/authController.js'
+import { isAuthenticated, login, logout, register, resetPassword, sendResetOtp, sendVerifyOtp, verifyOtp } from '../Controllers/authController.js'
 import userAuth from '../middleware/userAuth.js'
 
 const authRoutes = express.Router()
@@ -10,5 +10,7 @@ authRoutes.post('/logout', logout)
 authRoutes.post('/send-Verify-Otp', userAuth, sendVerifyOtp)
 authRoutes.post('/verify-Otp', userAuth, verifyOtp)
 authRoutes.post('/is-auth', userAuth, isAuthenticated)
+authRoutes.post('/send-reset-otp', sendResetOtp)
+authRoutes.post('/reset-password', resetPassword)
 
 export default authRoutes
