@@ -201,7 +201,7 @@ export const isAuthenticated = async(req, res)=>{
             res.json({success: false, message : "Email is required"})
         }
         try {
-            const user = await userModel.findone({email})
+            const user = await userModel.findOne({email})
             if(!user){
                 return res.json({success: false, message: 'User not found'})
             }
