@@ -7,7 +7,7 @@ const Navbar = () => {
    
 
   return (
-    <div className='flex h-auto w-full items-center justify-between  top-0% p-7'>
+    <div className='flex absolute top-2  h-auto w-full items-center justify-between  top-0% p-7'>
         <div className='h-20 w-20 rounded-full overflow-hidden'>
       <img className=" object-cover w-full h-full  " src={logo} alt="not showing" />
       </div>

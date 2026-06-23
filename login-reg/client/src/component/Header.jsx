@@ -3,7 +3,7 @@ import midPic from '../assets/headLogo.png'
 
 const Header = () => {
   return (
-    <div className='items-center h-auto w-full pt-4 justify-center flex flex-col'>
+    <div className='items-center h-auto w-full pt-4 justify-center absolute flex flex-col'>
         <div className='h-45 w-45 rounded-full overflow-hidden'>
         <img className='object-cover w-full h-full' src={midPic} alt="" />
         </div>
