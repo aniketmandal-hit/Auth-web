@@ -1,6 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import logo from "../assets/navLogo.png";
 import { useNavigate } from "react-router-dom";
+import { AppContent } from "../context/AppContext.jsx";
+import axios from 'axios'
+import { toast } from 'react-toastify';
+
+
 
 const login = () => {
   const [state, setstate] = useState("Signup");
@@ -11,14 +16,42 @@ const login = () => {
 
   const navigate = useNavigate();
 
-  const formBeh = (e) => {
-    e.preventDefault();
-    console.log(username, password, email);
-    setUsername("");
-    setEmail("");
-    setPassword("");
-  };
+  const {backendUrl, setIsLoggedin} = useContext(AppContent)
 
+
+  
+const onSubmitHandler = async (e) => {
+    e.preventDefault();
+    axios.defaults.withCredentials = true;
+
+    try {
+      //for signup
+      if (state === 'Signup') {
+        const { data } = await axios.post(backendUrl + '/api/auth/register', { username, email, password });
+        
+        if (data.success) {
+          setIsLoggedin(true);
+          navigate('/');
+        } else {
+          toast.error(data.message);
+        }
+      } //for login
+       else {
+     
+        const { data } = await axios.post(backendUrl + '/api/auth/login', { email, password });
+        
+        if (data.success) {
+          setIsLoggedin(true);
+          navigate('/');
+        } else {
+          toast.error(data.message);
+        }
+      }
+    } catch (error) {
+
+      toast.error(error.message);
+    }
+  };
   return (
     <div className="flex h-screen w-full  bg-linear-to-br from-purple-700 to-emerald-800 items-center justify-center">
       <div
@@ -42,7 +75,7 @@ const login = () => {
         </h1>
         <form
           onSubmit={(e) => {
-            formBeh(e);
+          onSubmitHandler(e);
           }}
           className="flex items-center justify-center gap-4 flex-col"
         >
