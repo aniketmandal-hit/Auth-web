@@ -2,11 +2,12 @@
 import { useContext } from 'react'
 import midPic from '../assets/headLogo.png'
 import { AppContent } from '../context/AppContext.jsx'
+import {  Link, useNavigate } from 'react-router-dom'
 
 
 const Header = () => {
-  
-const {UserData} = useContext(AppContent)
+  const navigate = useNavigate()
+const {UserData, IsLoggedin} = useContext(AppContent)
 
 
   return (
@@ -16,7 +17,10 @@ const {UserData} = useContext(AppContent)
         </div>
         <h1 className='text-2xl font-bold m-2'>Hey welcome {UserData ? UserData.Username : 'Otaku'}!</h1>
         <p className='mb-1.5 '>welcome to our otaku website you may login to procced forward</p>
-      <button className='text-white  bg-gray-500 rounded-full p-2  cursor-pointer active:scale-105 '>Get started</button>
+        {IsLoggedin ? <Link to='/hero-page' className='text-white  bg-gray-500 rounded-full p-2  cursor-pointer active:scale-105 '>Get started</Link>
+         : <Link to = '/login' className='text-white  bg-gray-500 rounded-full p-2  cursor-pointer active:scale-105 '> Login to continue</Link>
+         }
+      
     </div>
   )
 }

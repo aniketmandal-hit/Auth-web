@@ -197,10 +197,11 @@ export const isAuthenticated = async(req, res)=>{
     export const sendResetOtp =  async(req, res)=>{
         const {email} = req.body;
 
-        if(!email){
-            res.json({success: false, message : "Email is required"})
-        }
+
         try {
+            if(!email){
+           return res.json({success: false, message : "Email is required"})
+        }
             const user = await userModel.findOne({email})
             if(!user){
                 return res.json({success: false, message: 'User not found'})
@@ -231,11 +232,13 @@ export const isAuthenticated = async(req, res)=>{
     }
 
 
+
     export const resetPassword = async (req, res) => {
         const {email, otp, password} = req.body
 
         if(!email || !otp || !password){
-            res.json({success: false, message: 'Email or Otp or Password are required'})
+           return res.json({success: false, message: 'Email or Otp or Password are required'})
+           console.log("BACKEND RECEIVED OTP:", typeof otp, `"${otp}"`);
         }
         const user = await userModel.findOne({email})
         try {

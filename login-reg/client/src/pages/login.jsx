@@ -112,13 +112,13 @@ const onSubmitHandler = async (e) => {
           />
           <p
             onClick={() => {
-              navigate("/ResetPassword");
+              navigate('/reset-password');
             }}
             className="text-xs cursor-pointer text-blue-900 left-0 w-63 underline "
           >
             Forgot password?
           </p>
-          <button className=" cursor-pointer bg-linear-to-br from-white to-gray-400 rounded-2xl w-65 h-7 flex items-center justify-center ">
+          <button className=" border-2 cursor-pointer border-violet-400 p-2 rounded-full bg-linear-to-br from-gray-50 to-gray-400 ">
             {state}
           </button>
         </form>
